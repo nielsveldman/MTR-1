@@ -28,11 +28,6 @@ esp32_improv:
   authorizer: none
 
 wifi:
-  on_connect:
-    - delay: 5s  
-    - ble.disable:
-  on_disconnect:
-    - ble.enable:
   ap:
     ssid: "Apollo MTR1 Hotspot"
 
