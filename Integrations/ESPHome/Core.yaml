@@ -1,18 +1,21 @@
 substitutions:
   name: apollo-mtr-1
-  version: "25.9.19.1"
+  version: "26.1.27.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
 
 esp32:
-  board: esp32-c3-devkitm-1
-  framework:
-    type: esp-idf
+  variant: esp32c3
+  flash_size: 4MB
 
 captive_portal:
 
+web_server:
+  port: 80
+  version: 3
+
 api:
-  services:
-    - service: play_buzzer
+  actions:
+    - action: play_buzzer
       variables:
         song_str: string
       then:
