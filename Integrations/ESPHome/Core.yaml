@@ -464,6 +464,17 @@ text_sensor:
     target_3:
       direction:
         name: "Target-3 Direction"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: "diagnostic"
+  - platform: template
+    name: "Apollo Firmware Version"
+    id: apollo_firmware_version
+    lambda: |-
+      return {"${version}"};
+    update_interval: never
+    entity_category: "diagnostic"
 
 
 script:
