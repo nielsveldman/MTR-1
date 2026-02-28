@@ -126,6 +126,21 @@ number:
       y2:
         name: Zone-3 Y2
   - platform: template
+    name: "DPS310 Pressure Offset"
+    id: dps310_pressure_offset
+    disabled_by_default: true
+    restore_value: true
+    initial_value: 0.0
+    min_value: -100.0
+    max_value: 100.0
+    entity_category: "CONFIG"
+    unit_of_measurement: "hPa"
+    optimistic: true
+    update_interval: never
+    step: 0.1
+    mode: box
+
+  - platform: template
     name: DPS310 Temperature Offset
     id: dps310_temperature_offset
     restore_value: true
@@ -274,6 +289,10 @@ sensor:
     pressure:
       name: "DPS310 Pressure"
       id: dps310pressure
+      filters:
+        - lambda: |-
+            float offset = id(dps310_pressure_offset).state;
+            return isnan(offset) ? x : x + offset;
     temperature:
       name: "DPS310 Temperature"
       id: dps310temperature
