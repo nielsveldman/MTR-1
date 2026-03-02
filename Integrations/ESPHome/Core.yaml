@@ -1,6 +1,6 @@
 substitutions:
   name: apollo-mtr-1
-  version: "26.2.2.1"
+  version: "26.3.2.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
 
 esp32:
@@ -148,7 +148,7 @@ number:
     min_value: -70.0
     max_value: 70.0
     entity_category: "CONFIG"
-    unit_of_measurement: "Â°C"
+    unit_of_measurement: "°C"
     optimistic: true
     update_interval: never
     step: 0.1
@@ -161,7 +161,7 @@ number:
     min_value: -70.0
     max_value: 70.0
     entity_category: "CONFIG"
-    unit_of_measurement: "Â°C"
+    unit_of_measurement: "°C"
     optimistic: true
     update_interval: never
     step: 0.1
