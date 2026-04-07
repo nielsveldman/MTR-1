@@ -10,14 +10,19 @@ esphome:
 
   min_version: 2025.8.0
   on_boot:
-    priority: -10
+  - priority: 500
+    then:
+      - text_sensor.template.publish:
+          id: apollo_firmware_version
+          state: "${version}"
+  - priority: -10
     then:
       - if:
           condition:
             - lambda: "return id(runTest);"
           then:
             - lambda: "id(testScript).execute();"
-  
+
 dashboard_import:
   package_import_url: github://ApolloAutomation/MTR-1/Integrations/ESPHome/MTR-1_Factory.yaml
   import_full_config: false
@@ -28,11 +33,6 @@ esp32_improv:
   authorizer: none
 
 wifi:
-  on_connect:
-    - delay: 5s  
-    - ble.disable:
-  on_disconnect:
-    - ble.enable:
   ap:
     ssid: "Apollo MTR1 Hotspot"
 

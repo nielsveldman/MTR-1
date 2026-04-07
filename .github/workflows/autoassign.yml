@@ -7,6 +7,8 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+    # Skip auto-assign for pull requests from forks due to GITHUB_TOKEN permission restrictions
+    if: github.event_name == 'issues' || github.event.pull_request.head.repo.full_name == github.repository
     permissions:
       issues: write
       pull-requests: write

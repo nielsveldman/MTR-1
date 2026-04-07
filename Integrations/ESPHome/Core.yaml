@@ -1,26 +1,31 @@
 substitutions:
   name: apollo-mtr-1
-  version: "25.9.19.1"
+  version: "26.3.2.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
 
 esp32:
-  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  flash_size: 4MB
   framework:
     type: esp-idf
 
 captive_portal:
 
+web_server:
+  port: 80
+  version: 3
+
 api:
-  services:
-    - service: play_buzzer
+  actions:
+    - action: play_buzzer
       variables:
         song_str: string
       then:
         - rtttl.play:
             rtttl: !lambda "return song_str;"
 
-    #Co2 Calibration Service
-    - service: calibrate_co2_value
+#Co2 Calibration Action
+    - action: calibrate_co2_value
       variables:
         co2_ppm: float
       then:
@@ -57,6 +62,10 @@ globals:
     restore_value: no
     type: bool
     initial_value: "false"
+  - id: ltr390_last_update
+    restore_value: no
+    type: uint32_t
+    initial_value: '0'
 
 i2c:
   sda: GPIO1
@@ -75,6 +84,7 @@ uart:
     mode:
       input: true
       pullup: true
+  rx_buffer_size: 1024
   baud_rate: 256000
   parity: NONE
   stop_bits: 1
@@ -116,6 +126,21 @@ number:
       y2:
         name: Zone-3 Y2
   - platform: template
+    name: "DPS310 Pressure Offset"
+    id: dps310_pressure_offset
+    disabled_by_default: true
+    restore_value: true
+    initial_value: 0.0
+    min_value: -100.0
+    max_value: 100.0
+    entity_category: "CONFIG"
+    unit_of_measurement: "hPa"
+    optimistic: true
+    update_interval: never
+    step: 0.1
+    mode: box
+
+  - platform: template
     name: DPS310 Temperature Offset
     id: dps310_temperature_offset
     restore_value: true
@@ -156,6 +181,19 @@ number:
     step: 0.1
     mode: box
     disabled_by_default: true
+  - platform: template
+    name: LTR390 Update Interval
+    id: ltr390_update_interval
+    restore_value: true
+    initial_value: 60
+    min_value: 1
+    max_value: 300
+    entity_category: "CONFIG"
+    unit_of_measurement: "s"
+    optimistic: true
+    update_interval: never
+    step: 1
+    mode: box
 
 output:
   - platform: ledc
@@ -251,6 +289,10 @@ sensor:
     pressure:
       name: "DPS310 Pressure"
       id: dps310pressure
+      filters:
+        - lambda: |-
+            float offset = id(dps310_pressure_offset).state;
+            return isnan(offset) ? x : x + offset;
     temperature:
       name: "DPS310 Temperature"
       id: dps310temperature
@@ -261,13 +303,13 @@ sensor:
 
   - platform: ltr390
     id: ltr_390
+    update_interval: never
     light:
       name: "LTR390 Light"
       id: ltr390light
     uv_index:
       name: "LTR390 UV Index"
       id: ltr390uvindex
-    update_interval: 5s
 
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -385,6 +427,27 @@ button:
           value: 420
           id: scd40
 
+interval:
+  - interval: 1s
+    then:
+      - lambda: |-
+          uint32_t current_time = millis() / 1000;  // Convert to seconds
+          uint32_t last_update = id(ltr390_last_update);
+          float configured_interval = id(ltr390_update_interval).state;
+          uint32_t interval = (configured_interval >= 1.0f) ? (uint32_t)configured_interval : 60u;
+
+          // Immediate update on boot (when last_update is still 0)
+          if (last_update == 0) {
+            id(ltr_390).update();
+            id(ltr390_last_update) = current_time;
+            return;
+          }
+
+          // Check if enough time has passed
+          if (current_time - last_update >= interval) {
+            id(ltr_390).update();
+            id(ltr390_last_update) = current_time;
+          }
 
 switch:
   - platform: factory_reset
@@ -421,6 +484,20 @@ text_sensor:
     target_3:
       direction:
         name: "Target-3 Direction"
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: "diagnostic"
+  - platform: template
+    name: "Apollo Firmware Version"
+    id: apollo_firmware_version
+    update_interval: never
+    entity_category: "diagnostic"
+  - platform: wifi_info
+    ip_address:
+      name: "IP Address"
+      id: wifi_ip
+      entity_category: "diagnostic"
 
 
 script:
