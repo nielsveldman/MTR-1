@@ -16,18 +16,6 @@ web_server:
   version: 3
 
 globals:
-  - id: button_press_timestamp
-    restore_value: no
-    type: uint32_t
-    initial_value: "0"
-  - id: ltr390lightPassed
-    restore_value: no
-    type: bool
-    initial_value: "false"
-  - id: ld2450Passed
-    restore_value: no
-    type: bool
-    initial_value: "false"
   - id: ltr390_last_update
     restore_value: no
     type: uint32_t
@@ -125,22 +113,6 @@ binary_sensor:
     id: ink_ha_connected
 
 sensor:
-  - platform: internal_temperature
-    name: "ESP Temperature"
-    id: sys_esp_temperature
-    update_interval: 604800s
-
-  - platform: uptime
-    name: Uptime
-    id: sys_uptime
-    update_interval: 604800s
-
-  - platform: wifi_signal
-    name: RSSI
-    id: wifi_signal_db
-    update_interval: 604800s
-    entity_category: "diagnostic"
-
   - platform: ltr390
     id: ltr_390
     update_interval: never
