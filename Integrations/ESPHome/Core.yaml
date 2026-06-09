@@ -288,35 +288,3 @@ text_sensor:
       name: "IP Address"
       id: wifi_ip
       entity_category: "diagnostic"
-
-
-script:
-  - id: testScript      
-    then:
-      if: 
-        condition:
-          - lambda: "return id(runTest) == true;"
-        then:
-          - lambda: "id(runTest) = false;"
-          - lambda: "id(testCycleCount) = 0;"
-          - while:
-              condition:
-                - lambda: "return id(testCycleCount) < 5;"
-              then:
-                - if:
-                    condition:
-                      - lambda: "return id(ltr390lightPassed) == false;"
-                    then:
-                      - if:
-                          condition:
-                            - lambda: "return id(ltr390light).state > 10;"
-                          then:
-                            - lambda: "id(ltr390lightPassed) = true;"
-                 - if:
-                    condition:
-                      - lambda: "return id(ltr390lightPassed) && id(ld2450Passed);"
-                    then:
-                      - lambda: "id(testCycleCount) = 10;"
-                - lambda: "id(runTest) = false;"
-                - delay: 1s
-                - lambda: "id(testCycleCount) += 1;"
