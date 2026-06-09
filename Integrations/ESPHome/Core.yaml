@@ -136,7 +136,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "hPa"
     optimistic: true
-    update_interval: 0s
+    update_interval: 9999999s
     step: 0.1
     mode: box
 
@@ -150,7 +150,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: 0s
+    update_interval: 9999999s
     step: 0.1
     mode: box
   - platform: template
@@ -163,7 +163,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: 0s
+    update_interval: 9999999s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -177,7 +177,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "%"
     optimistic: true
-    update_interval: 0s
+    update_interval: 9999999s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -253,12 +253,12 @@ sensor:
   - platform: uptime
     name: Uptime
     id: sys_uptime
-    update_interval: 60s
+    update_interval: 9999999s
 
   - platform: wifi_signal
     name: RSSI
     id: wifi_signal_db
-    update_interval: 60s
+    update_interval: 9999999s
     entity_category: "diagnostic"
 
   - platform: scd4x
@@ -279,7 +279,7 @@ sensor:
       filters:
         - lambda: return x - id(scd40_humidity_offset).state;
     automatic_self_calibration: false
-    update_interval: 60s
+    update_interval: 9999999s
     measurement_mode: "periodic"
     i2c_id: bus_a
     ambient_pressure_compensation_source: dps310pressure
@@ -298,7 +298,7 @@ sensor:
       id: dps310temperature
       filters:
         - lambda: return x - id(dps310_temperature_offset).state;
-    update_interval: 30s
+    update_interval: 9999999s
     i2c_id: bus_a
 
   - platform: ltr390
@@ -386,7 +386,7 @@ light:
     id: rgb_light
     name: "RGB Light"
     pin: GPIO3
-    default_transition_length: 0s
+    default_transition_length: 9999999s
     chipset: WS2812
     num_leds: 1
     rgb_order: grb
@@ -491,7 +491,7 @@ text_sensor:
   - platform: template
     name: "Apollo Firmware Version"
     id: apollo_firmware_version
-    update_interval: 0s
+    update_interval: 9999999s
     entity_category: "diagnostic"
   - platform: wifi_info
     ip_address:
