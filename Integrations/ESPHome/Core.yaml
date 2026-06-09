@@ -125,62 +125,7 @@ number:
         name: Zone-3 X2
       y2:
         name: Zone-3 Y2
-  - platform: template
-    name: "DPS310 Pressure Offset"
-    id: dps310_pressure_offset
-    disabled_by_default: true
-    restore_value: true
-    initial_value: 0.0
-    min_value: -100.0
-    max_value: 100.0
-    entity_category: "CONFIG"
-    unit_of_measurement: "hPa"
-    optimistic: true
-    update_interval: 4000000000s
-    step: 0.1
-    mode: box
 
-  - platform: template
-    name: DPS310 Temperature Offset
-    id: dps310_temperature_offset
-    restore_value: true
-    initial_value: 18.86
-    min_value: -70.0
-    max_value: 70.0
-    entity_category: "CONFIG"
-    unit_of_measurement: "°C"
-    optimistic: true
-    update_interval: 4000000000s
-    step: 0.1
-    mode: box
-  - platform: template
-    name: SCD40 Temperature Offset
-    id: scd40_temperature_offset
-    restore_value: true
-    initial_value: 18.86
-    min_value: -70.0
-    max_value: 70.0
-    entity_category: "CONFIG"
-    unit_of_measurement: "°C"
-    optimistic: true
-    update_interval: 4000000000s
-    step: 0.1
-    mode: box
-    disabled_by_default: true
-  - platform: template
-    name: SCD40 Humidity Offset
-    id: scd40_humidity_offset
-    restore_value: true
-    initial_value: 0
-    min_value: -70.0
-    max_value: 70.0
-    entity_category: "CONFIG"
-    unit_of_measurement: "%"
-    optimistic: true
-    update_interval: 4000000000s
-    step: 0.1
-    mode: box
-    disabled_by_default: true
   - platform: template
     name: LTR390 Update Interval
     id: ltr390_update_interval
@@ -240,71 +185,12 @@ binary_sensor:
             }
 
 sensor:
-  - platform: internal_temperature
-    name: "ESP Temperature"
-    id: sys_esp_temperature
-    update_interval: 4000000000s
-
-  - platform: uptime
-    name: Uptime
-    id: sys_uptime
-    update_interval: 4000000000s
-
-  - platform: wifi_signal
-    name: RSSI
-    id: wifi_signal_db
-    update_interval: 4000000000s
-    entity_category: "diagnostic"
-
-  - platform: scd4x
-    id: scd40
-    co2:
-      name: "CO2"
-      id: "co2"
-    temperature:
-      name: "SCD40 Temperature"
-      id: scd40_temperature
-      disabled_by_default: true
-      filters:
-        - lambda: return x - id(scd40_temperature_offset).state;
-    humidity:
-      name: "SCD40 Humidity"
-      id: scd40_humidity
-      disabled_by_default: true
-      filters:
-        - lambda: return x - id(scd40_humidity_offset).state;
-    automatic_self_calibration: false
-    update_interval: 4000000000s
-    measurement_mode: "periodic"
-    i2c_id: bus_a
-    ambient_pressure_compensation_source: dps310pressure
-
-  - platform: dps310
-    id: dps_310
-    pressure:
-      name: "DPS310 Pressure"
-      id: dps310pressure
-      filters:
-        - lambda: |-
-            float offset = id(dps310_pressure_offset).state;
-            return isnan(offset) ? x : x + offset;
-    temperature:
-      name: "DPS310 Temperature"
-      id: dps310temperature
-      filters:
-        - lambda: return x - id(dps310_temperature_offset).state;
-    update_interval: 4000000000s
-    i2c_id: bus_a
-
   - platform: ltr390
     id: ltr_390
     update_interval: never
     light:
       name: "LTR390 Light"
       id: ltr390light
-    uv_index:
-      name: "LTR390 UV Index"
-      id: ltr390uvindex
 
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -324,29 +210,6 @@ sensor:
       y:
         name: Target-3 Y
 
-light:
-  - platform: esp32_rmt_led_strip
-    id: rgb_light
-    name: "RGB Light"
-    pin: GPIO3
-    default_transition_length: 0s
-    chipset: WS2812
-    num_leds: 1
-    rgb_order: grb
-    effects:
-      - pulse:
-          name: "Slow Pulse"
-          transition_length: 1000ms
-          update_interval: 4000000000s
-          min_brightness: 50%
-          max_brightness: 100%
-      - pulse:
-          name: "Fast Pulse"
-          transition_length: 100ms
-          update_interval: 4000000000s
-          min_brightness: 50%
-          max_brightness: 100%
-
 button:
   - platform: ld2450
     ld2450_id: ld2450_radar
@@ -362,16 +225,9 @@ button:
     disabled_by_default: True
     name: "Factory Reset ESP"
     id: factory_reset_all
-  - platform: template
-    name: "Calibrate SCD40 To 420ppm"
-    id: set_SCD40_calibrate
-    on_press:
-      - scd4x.perform_forced_calibration:
-          value: 420
-          id: scd40
 
 interval:
-  - interval: 1s
+  - interval: 5s
     then:
       - lambda: |-
           uint32_t current_time = millis() / 1000;  // Convert to seconds
@@ -425,7 +281,7 @@ text_sensor:
   - platform: template
     name: "Apollo Firmware Version"
     id: apollo_firmware_version
-    update_interval: 4000000000s
+    update_interval: 604800s
     entity_category: "diagnostic"
   - platform: wifi_info
     ip_address:
@@ -449,15 +305,6 @@ script:
               then:
                 - if:
                     condition:
-                      - lambda: "return id(dps310Passed) == false;"
-                    then:
-                      - if:
-                          condition:
-                            - lambda: "return id(dps310pressure).state > 0;"
-                          then:
-                            - lambda: "id(dps310Passed) = true;"
-                - if:
-                    condition:
                       - lambda: "return id(ltr390lightPassed) == false;"
                     then:
                       - if:
@@ -465,56 +312,11 @@ script:
                             - lambda: "return id(ltr390light).state > 10;"
                           then:
                             - lambda: "id(ltr390lightPassed) = true;"
-                - if:
+                 - if:
                     condition:
-                      - lambda: "return id(ltr390uvindexPassed) == false;"
-                    then:
-                      - if:
-                          condition:
-                            - lambda: "return !isnan(id(ltr390uvindex).state);"
-                          then:
-                            - lambda: "id(ltr390uvindexPassed) = true;"
-                - if:
-                    condition:
-                      - lambda: "return id(dps310Passed) && id(ltr390lightPassed) && id(ltr390uvindexPassed) && id(ld2450Passed);"
+                      - lambda: "return id(ltr390lightPassed) && id(ld2450Passed);"
                     then:
                       - lambda: "id(testCycleCount) = 10;"
                 - lambda: "id(runTest) = false;"
                 - delay: 1s
                 - lambda: "id(testCycleCount) += 1;"
-          
-          #Check If Test Passed To Trigger Lights
-          - if:
-              condition:
-                - lambda: "return id(dps310Passed) && id(ltr390lightPassed) && id(ltr390uvindexPassed) && id(ld2450Passed);"
-              then:
-                - lambda: "id(runTest) = false;"
-                - light.turn_on:
-                    id: rgb_light
-                    red: 0%
-                    green: 100%
-                    blue: 0%
-                - delay: 5s
-                - light.turn_on:
-                    id: rgb_light
-                    red: 0%
-                    green: 0%
-                    blue: 0%
-                - light.turn_off:
-                    id: rgb_light
-                
-              else:
-                - lambda: "id(runTest) = false;"
-                - light.turn_on:
-                    id: rgb_light
-                    red: 100%
-                    green: 0%
-                    blue: 0%
-                - delay: 5s
-                - light.turn_on:
-                    id: rgb_light
-                    red: 0%
-                    green: 0%
-                    blue: 0%
-                - light.turn_off:
-                    id: rgb_light
