@@ -249,6 +249,7 @@ sensor:
   - platform: internal_temperature
     name: "ESP Temperature"
     id: sys_esp_temperature
+    update_interval: 4000000000s
 
   - platform: uptime
     name: Uptime
