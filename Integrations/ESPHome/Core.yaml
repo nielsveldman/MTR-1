@@ -479,12 +479,18 @@ text_sensor:
     target_1:
       direction:
         name: "Target-1 Direction"
+        disabled_by_default: true
+        update_interval: never
     target_2:
       direction:
         name: "Target-2 Direction"
+        disabled_by_default: true
+        update_interval: never
     target_3:
       direction:
         name: "Target-3 Direction"
+        disabled_by_default: true
+        update_interval: never
   - platform: version
     name: "ESPHome Version"
     hide_timestamp: true
