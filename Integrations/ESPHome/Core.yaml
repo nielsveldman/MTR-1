@@ -136,7 +136,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "hPa"
     optimistic: true
-    update_interval: never
+    update_interval: 0s
     step: 0.1
     mode: box
 
@@ -150,7 +150,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: never
+    update_interval: 0s
     step: 0.1
     mode: box
   - platform: template
@@ -163,7 +163,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: never
+    update_interval: 0s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -177,7 +177,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "%"
     optimistic: true
-    update_interval: never
+    update_interval: 0s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -191,7 +191,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "s"
     optimistic: true
-    update_interval: never
+    update_interval: 60s
     step: 1
     mode: box
 
@@ -303,7 +303,7 @@ sensor:
 
   - platform: ltr390
     id: ltr_390
-    update_interval: never
+    update_interval: 60s
     light:
       name: "LTR390 Light"
       id: ltr390light
@@ -491,7 +491,7 @@ text_sensor:
   - platform: template
     name: "Apollo Firmware Version"
     id: apollo_firmware_version
-    update_interval: never
+    update_interval: 0s
     entity_category: "diagnostic"
   - platform: wifi_info
     ip_address:
