@@ -136,7 +136,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "hPa"
     optimistic: true
-    update_interval: 9999999s
+    update_interval: 4000000000s
     step: 0.1
     mode: box
 
@@ -150,7 +150,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: 9999999s
+    update_interval: 4000000000s
     step: 0.1
     mode: box
   - platform: template
@@ -163,7 +163,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "°C"
     optimistic: true
-    update_interval: 9999999s
+    update_interval: 4000000000s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -177,7 +177,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "%"
     optimistic: true
-    update_interval: 9999999s
+    update_interval: 4000000000s
     step: 0.1
     mode: box
     disabled_by_default: true
@@ -249,16 +249,16 @@ sensor:
   - platform: internal_temperature
     name: "ESP Temperature"
     id: sys_esp_temperature
-    update_interval: 9999999s
 
   - platform: uptime
     name: Uptime
     id: sys_uptime
-    update_interval: 9999999s
+    update_interval: 4000000000s
 
   - platform: wifi_signal
     name: RSSI
     id: wifi_signal_db
+    update_interval: 4000000000s
     entity_category: "diagnostic"
 
   - platform: scd4x
@@ -279,7 +279,7 @@ sensor:
       filters:
         - lambda: return x - id(scd40_humidity_offset).state;
     automatic_self_calibration: false
-    update_interval: 9999999s
+    update_interval: 4000000000s
     measurement_mode: "periodic"
     i2c_id: bus_a
     ambient_pressure_compensation_source: dps310pressure
@@ -298,7 +298,7 @@ sensor:
       id: dps310temperature
       filters:
         - lambda: return x - id(dps310_temperature_offset).state;
-    update_interval: 9999999s
+    update_interval: 4000000000s
     i2c_id: bus_a
 
   - platform: ltr390
@@ -386,7 +386,7 @@ light:
     id: rgb_light
     name: "RGB Light"
     pin: GPIO3
-    default_transition_length: 9999999s
+    default_transition_length: 0s
     chipset: WS2812
     num_leds: 1
     rgb_order: grb
@@ -394,13 +394,13 @@ light:
       - pulse:
           name: "Slow Pulse"
           transition_length: 1000ms
-          update_interval: 1000ms
+          update_interval: 4000000000s
           min_brightness: 50%
           max_brightness: 100%
       - pulse:
           name: "Fast Pulse"
           transition_length: 100ms
-          update_interval: 100ms
+          update_interval: 4000000000s
           min_brightness: 50%
           max_brightness: 100%
 
@@ -491,13 +491,14 @@ text_sensor:
   - platform: template
     name: "Apollo Firmware Version"
     id: apollo_firmware_version
-    update_interval: 9999999s
+    update_interval: 4000000000s
     entity_category: "diagnostic"
   - platform: wifi_info
     ip_address:
       name: "IP Address"
       id: wifi_ip
       entity_category: "diagnostic"
+
 
 script:
   - id: testScript      
