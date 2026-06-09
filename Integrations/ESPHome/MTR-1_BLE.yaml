@@ -26,7 +26,7 @@ esphome:
 logger:
 
 dashboard_import:
-  package_import_url: github://ApolloAutomation/MTR-1/Integrations/ESPHome/MTR-1_BLE.yaml
+  package_import_url: github://nielsveldman/MTR-1/Integrations/ESPHome/MTR-1_BLE.yaml
   import_full_config: false
 
 ota:
