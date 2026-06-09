@@ -326,40 +326,16 @@ sensor:
         name: Target-1 X
       y:
         name: Target-1 Y
-      speed:
-        name: Target-1 Speed
-      angle:
-        name: Target-1 Angle
-      distance:
-        name: Target-1 Distance
-      resolution:
-        name: Target-1 Resolution
     target_2:
       x:
         name: Target-2 X
       y:
         name: Target-2 Y
-      speed:
-        name: Target-2 Speed
-      angle:
-        name: Target-2 Angle
-      distance:
-        name: Target-2 Distance
-      resolution:
-        name: Target-2 Resolution
     target_3:
       x:
         name: Target-3 X
       y:
         name: Target-3 Y
-      speed:
-        name: Target-3 Speed
-      angle:
-        name: Target-3 Angle
-      distance:
-        name: Target-3 Distance
-      resolution:
-        name: Target-3 Resolution
     zone_1:
       target_count:
         name: Zone-1 All Target Count
