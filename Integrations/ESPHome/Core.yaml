@@ -323,27 +323,6 @@ sensor:
         name: Target-3 X
       y:
         name: Target-3 Y
-    zone_1:
-      target_count:
-        name: Zone-1 All Target Count
-      still_target_count:
-        name: Zone-1 Still Target Count
-      moving_target_count:
-        name: Zone-1 Moving Target Count
-    zone_2:
-      target_count:
-        name: Zone-2 All Target Count
-      still_target_count:
-        name: Zone-2 Still Target Count
-      moving_target_count:
-        name: Zone-2 Moving Target Count
-    zone_3:
-      target_count:
-        name: Zone-3 All Target Count
-      still_target_count:
-        name: Zone-3 Still Target Count
-      moving_target_count:
-        name: Zone-3 Moving Target Count
 
 light:
   - platform: esp32_rmt_led_strip
@@ -495,15 +474,6 @@ script:
                             - lambda: "return !isnan(id(ltr390uvindex).state);"
                           then:
                             - lambda: "id(ltr390uvindexPassed) = true;"
-                - if:
-                    condition:
-                      - lambda: "return id(ld2450Passed) == false;"
-                    then:
-                      - if:
-                          condition:
-                            - lambda: "return id(presence_target_count).state > 0;"
-                          then:
-                            - lambda: "id(ld2450Passed) = true;"
                 - if:
                     condition:
                       - lambda: "return id(dps310Passed) && id(ltr390lightPassed) && id(ltr390uvindexPassed) && id(ld2450Passed);"
