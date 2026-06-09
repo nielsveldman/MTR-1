@@ -28,15 +28,7 @@ globals:
     type: int
     restore_value: no
     initial_value: "0"
-  - id: dps310Passed
-    restore_value: no
-    type: bool
-    initial_value: "false"
   - id: ltr390lightPassed
-    restore_value: no
-    type: bool
-    initial_value: "false"
-  - id: ltr390uvindexPassed
     restore_value: no
     type: bool
     initial_value: "false"
@@ -301,16 +293,7 @@ script:
               condition:
                 - lambda: "return id(testCycleCount) < 5;"
               then:
-                - if:
-                    condition:
-                      - lambda: "return id(dps310Passed) == false;"
-                    then:
-                      - if:
-                          condition:
-                            - lambda: "return id(dps310pressure).state > 0;"
-                          then:
-                            - lambda: "id(dps310Passed) = true;"
-                - if:
+                  - if:
                     condition:
                       - lambda: "return id(ltr390lightPassed) == false;"
                     then:
