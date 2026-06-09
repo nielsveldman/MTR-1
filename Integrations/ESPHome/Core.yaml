@@ -249,6 +249,7 @@ sensor:
   - platform: internal_temperature
     name: "ESP Temperature"
     id: sys_esp_temperature
+    update_interval: 9999999s
 
   - platform: uptime
     name: Uptime
@@ -478,12 +479,15 @@ text_sensor:
     target_1:
       direction:
         name: "Target-1 Direction"
+        update_interval: 9999999s
     target_2:
       direction:
         name: "Target-2 Direction"
+        update_interval: 9999999s
     target_3:
       direction:
         name: "Target-3 Direction"
+        update_interval: 9999999s
   - platform: version
     name: "ESPHome Version"
     hide_timestamp: true
@@ -498,6 +502,7 @@ text_sensor:
       name: "IP Address"
       id: wifi_ip
       entity_category: "diagnostic"
+      update_interval: 9999999s
 
 
 script:
