@@ -191,7 +191,7 @@ number:
     entity_category: "CONFIG"
     unit_of_measurement: "s"
     optimistic: true
-    update_interval: 60s
+    update_interval: never
     step: 1
     mode: box
 
@@ -304,7 +304,7 @@ sensor:
 
   - platform: ltr390
     id: ltr_390
-    update_interval: 60s
+    update_interval: never
     light:
       name: "LTR390 Light"
       id: ltr390light
