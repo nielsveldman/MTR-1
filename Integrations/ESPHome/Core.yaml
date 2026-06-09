@@ -15,24 +15,6 @@ web_server:
   port: 80
   version: 3
 
-api:
-  actions:
-    - action: play_buzzer
-      variables:
-        song_str: string
-      then:
-        - rtttl.play:
-            rtttl: !lambda "return song_str;"
-
-#Co2 Calibration Action
-    - action: calibrate_co2_value
-      variables:
-        co2_ppm: float
-      then:
-        - scd4x.perform_forced_calibration:
-            value: !lambda "return co2_ppm;"
-            id: scd40
-
 globals:
   - id: button_press_timestamp
     restore_value: no
