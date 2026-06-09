@@ -498,8 +498,6 @@ text_sensor:
       name: "IP Address"
       id: wifi_ip
       entity_category: "diagnostic"
-      update_interval: 9999999s
-
 
 script:
   - id: testScript      
