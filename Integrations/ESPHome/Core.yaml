@@ -133,15 +133,11 @@ sensor:
         name: Target-1 X
       y:
         name: Target-1 Y
-      speed:
-        name: Target-1 Speed
     target_2:
       x:
         name: Target-2 X
       y:
         name: Target-2 Y
-      speed:
-        name: Target-2 Speed
     target_3:
       x:
         name: Target-3 X
@@ -149,6 +145,15 @@ sensor:
         name: Target-3 Y
       speed:
         name: Target-3 Speed
+    zone_1:
+      target_count:
+        name: Zone-1 All Target Count
+    zone_2:
+      target_count:
+        name: Zone-2 All Target Count
+    zone_3:
+      target_count:
+        name: Zone-3 All Target Count
 
 button:
   - platform: ld2450
@@ -212,19 +217,9 @@ text_sensor:
     ld2450_id: ld2450_radar
     version:
       name: "LD2450 Firmware"
-    mac_address:
-      name: "LD2450 BT MAC"
-  - platform: version
-    name: "ESPHome Version"
-    hide_timestamp: true
-    entity_category: "diagnostic"
   - platform: template
     name: "Apollo Firmware Version"
     id: apollo_firmware_version
     update_interval: 604800s
     entity_category: "diagnostic"
-  - platform: wifi_info
-    ip_address:
-      name: "IP Address"
-      id: wifi_ip
-      entity_category: "diagnostic"
+
