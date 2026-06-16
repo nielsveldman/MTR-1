@@ -107,6 +107,12 @@ binary_sensor:
     has_target:
       id: ld2450_presence
       name: "LD2450 Presence"
+    has_moving_target:
+      id: ld2450_moving_target
+      name: "LD2450 Moving Target"
+    has_still_target:
+      id: ld2450_still_target
+      name: "LD2450 Still Target"
 
   - platform: status
     name: Online
@@ -127,16 +133,22 @@ sensor:
         name: Target-1 X
       y:
         name: Target-1 Y
+      speed:
+        name: Target-1 Speed
     target_2:
       x:
         name: Target-2 X
       y:
         name: Target-2 Y
+      speed:
+        name: Target-2 Speed
     target_3:
       x:
         name: Target-3 X
       y:
         name: Target-3 Y
+      speed:
+        name: Target-3 Speed
 
 button:
   - platform: ld2450
