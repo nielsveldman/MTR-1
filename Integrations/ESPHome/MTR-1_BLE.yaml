@@ -15,13 +15,6 @@ esphome:
       - text_sensor.template.publish:
           id: apollo_firmware_version
           state: "${version}"
-  - priority: -10
-    then:
-      - if:
-          condition:
-            - lambda: "return id(runTest);"
-          then:
-            - lambda: "id(testScript).execute();"
 
 logger:
 
