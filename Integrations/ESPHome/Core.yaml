@@ -80,20 +80,6 @@ number:
       y2:
         name: Zone-3 Y2
 
-  - platform: template
-    name: LTR390 Update Interval
-    id: ltr390_update_interval
-    restore_value: true
-    initial_value: 60
-    min_value: 1
-    max_value: 300
-    entity_category: "CONFIG"
-    unit_of_measurement: "s"
-    optimistic: true
-    update_interval: never
-    step: 1
-    mode: box
-
 output:
   - platform: ledc
     pin: GPIO10
@@ -113,13 +99,6 @@ binary_sensor:
     id: ink_ha_connected
 
 sensor:
-  - platform: ltr390
-    id: ltr_390
-    update_interval: never
-    light:
-      name: "LTR390 Light"
-      id: ltr390light
-
   - platform: ld2450
     ld2450_id: ld2450_radar
     target_1:
