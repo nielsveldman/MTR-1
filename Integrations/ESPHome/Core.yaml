@@ -142,28 +142,6 @@ button:
     name: "Factory Reset ESP"
     id: factory_reset_all
 
-interval:
-  - interval: 1s
-    then:
-      - lambda: |-
-          uint32_t current_time = millis() / 1000;  // Convert to seconds
-          uint32_t last_update = id(ltr390_last_update);
-          float configured_interval = id(ltr390_update_interval).state;
-          uint32_t interval = (configured_interval >= 1.0f) ? (uint32_t)configured_interval : 60u;
-
-          // Immediate update on boot (when last_update is still 0)
-          if (last_update == 0) {
-            id(ltr_390).update();
-            id(ltr390_last_update) = current_time;
-            return;
-          }
-
-          // Check if enough time has passed
-          if (current_time - last_update >= interval) {
-            id(ltr_390).update();
-            id(ltr390_last_update) = current_time;
-          }
-
 switch:
   - platform: factory_reset
     id: factory_reset_switch
