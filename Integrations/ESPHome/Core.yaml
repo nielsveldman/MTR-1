@@ -15,12 +15,6 @@ web_server:
   port: 80
   version: 3
 
-globals:
-  - id: ltr390_last_update
-    restore_value: no
-    type: uint32_t
-    initial_value: '0'
-
 i2c:
   sda: GPIO1
   scl: GPIO0
